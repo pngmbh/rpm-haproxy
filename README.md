@@ -1,7 +1,10 @@
-[![Github All Releases](https://img.shields.io/github/downloads/DBezemer/rpm-haproxy/total.svg)](https://github.com/DBezemer/rpm-haproxy/releases)
+[![Github All Releases](https://img.shields.io/github/downloads/pngmbh/rpm-haproxy/total.svg)](https://github.com/pngmbh/rpm-haproxy/releases) [![CircleCI](https://circleci.com/gh/pngmbh/rpm-haproxy.svg?style=svg)](https://circleci.com/gh/pngmbh/rpm-haproxy)
 
-This repository contains some build artifacts of HAproxy that are provided with no support and no expectation of stability.
-The recommended way of using the repository is to build and test your own packages.
+> This is a fork, with dockerized builds on CircleCI.
+
+This repository contains some build artifacts of HAproxy that are provided with no support and no expectation of stability. ~~The recommended way of using the repository is to build and test your own packages.~~
+
+You can use the following repository:
 
 # RPM Specs for HAproxy on CentOS / RHEL / Amazon Linux with default syslog
 
@@ -14,7 +17,7 @@ Perform the following steps on a build box as a regular user.
 ## Checkout this repository
 
     cd /opt
-    git clone https://github.com/DBezemer/rpm-haproxy.git 
+    git clone https://github.com/pngmbh/rpm-haproxy.git 
     cd ./rpm-haproxy
     git checkout 2.0
 
