@@ -13,6 +13,9 @@ jobs:
       - run:
           name: Build haproxy
           command: make build RELEASE=$CIRCLE_BUILD_NUM
+      - run:
+          name: Test install and Prometheus
+          command: make run-tests RELEASE=$CIRCLE_BUILD_NUM
       - persist_to_workspace:
           root: rpmbuild
           paths:
