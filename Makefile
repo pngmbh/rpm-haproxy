@@ -7,6 +7,7 @@ endif
 RELEASE?=1
 
 BUILDER_IMAGE:=haproxy-rpm-builder
+DOCKER_RUN:=docker run --volume $(HOME):/builder --rm $(BUILDER_IMAGE):latest
 
 
 .PHONY: build-docker
@@ -15,7 +16,7 @@ build-docker:
 
 .PHONY: run-docker
 run-docker: clean build-docker
-	docker run --volume $(HOME):/builder --rm $(BUILDER_IMAGE):latest
+	$(DOCKER_RUN)
 
 all: build
 
@@ -41,3 +42,12 @@ build: install_prereq clean download-upstream
 	--define "_buildroot %{_topdir}/BUILDROOT" \
 	--define "_rpmdir %{_topdir}/RPMS" \
 	--define "_srcrpmdir %{_topdir}/SRPMS"
+
+.PHONY: run-test
+run-tests:
+	yum install -y ./rpmbuild/RPMS/x86_64/haproxy-${VERSION}-${RELEASE}.el7.x86_64.rpm
+	/usr/sbin/haproxy -vv|grep -c Prometheus
+
+.PHONY: test
+test:
+	$(DOCKER_RUN) make run-tests
