@@ -9,17 +9,15 @@ jobs:
       - checkout
       - run:
           name: Dependencies
-          command: mkdir -p /opt && yum install -y wget make
+          command: mkdir -p /opt && yum -y install make
       - run:
           name: Build haproxy
           command: make build RELEASE=$CIRCLE_BUILD_NUM
-      - run:
-          name: Show RPMs
-          command: ls -lah ./rpmbuild/RPMS/x86_64
       - persist_to_workspace:
           root: rpmbuild
           paths:
             - RPMS
+            - SRPMS
   publish:
     working_directory: ~/rpm
     docker:
@@ -31,11 +29,11 @@ jobs:
           name: Install package_cloud CLI tool
           command: gem install package_cloud
       - run:
-          name: Show RPMs
-          command: ls -lah ./rpmbuild/RPMS/x86_64
-      - run:
-          name: Publish packages
+          name: Publish rpms
           command: package_cloud push till/pngmbh-oss/el/7 ./rpmbuild/RPMS/x86_64/*.rpm
+      - run:
+          name: Publish srpms
+          command: package_cloud push till/pngmbh-oss/el/7 ./rpmbuild/SRPMS/*.rpm
 
 workflows:
   test:
