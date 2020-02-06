@@ -49,6 +49,8 @@ workflows:
               only: pngmbh-2.0
       - publish:
           context: packagecloud
+          requires:
+            - docker_build
           filters:
             branches:
               only: pngmbh-2.0
