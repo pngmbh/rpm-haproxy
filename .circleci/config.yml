@@ -1,9 +1,55 @@
 version: 2.1
 
-orbs:
-  welcome: circleci/welcome-orb@0.4.1
+jobs:
+  docker_build:
+    working_directory: ~/rpm
+    docker:
+      - image: centos:7
+    steps:
+      - checkout
+      - run:
+          name: Dependencies
+          command: mkdir -p /opt && yum install -y wget make
+      - run:
+          name: Build haproxy
+          command: make build RELEASE=$CIRCLE_BUILD_NUM
+      - run:
+          name: Show RPMs
+          command: ls -lah ./rpmbuild/RPMS/x86_64
+      - persist_to_workspace:
+          root: rpmbuild
+          paths:
+            - RPMS
+  publish:
+    working_directory: ~/rpm
+    docker:
+      - image: circleci/ruby:2.6-stretch
+    steps:
+      - attach_workspace:
+          at: ~/rpm/rpmbuild
+      - run:
+          name: Install package_cloud CLI tool
+          command: gem install package_cloud
+      - run:
+          name: Show RPMs
+          command: ls -lah ./rpmbuild/RPMS/x86_64
+      - run:
+          name: Publish packages
+          command: package_cloud push till/pngmbh-oss/el/7 ./rpmbuild/RPMS/x86_64/*.rpm
 
 workflows:
-  welcome:
+  test:
     jobs:
-      - welcome/run
+      - docker_build
+  publish:
+    jobs:
+      - docker_build:
+          filters:
+            branches:
+              only: master
+      - publish:
+          context: packagecloud
+          filters:
+            branches:
+              only: master
+      
