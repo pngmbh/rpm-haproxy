@@ -46,10 +46,10 @@ workflows:
       - docker_build:
           filters:
             branches:
-              only: master
+              only: pngmbh-2.0
       - publish:
           context: packagecloud
           filters:
             branches:
-              only: master
-      
+              only: pngmbh-2.0
+
