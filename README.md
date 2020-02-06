@@ -1,10 +1,11 @@
 [![Github All Releases](https://img.shields.io/github/downloads/pngmbh/rpm-haproxy/total.svg)](https://github.com/pngmbh/rpm-haproxy/releases) [![CircleCI](https://circleci.com/gh/pngmbh/rpm-haproxy.svg?style=svg)](https://circleci.com/gh/pngmbh/rpm-haproxy)
 
-> This is a fork, with dockerized builds on CircleCI.
+> This is a fork, with **Prometheus enabled in HAProxy** and dockerized builds via CircleCI.
 
 This repository contains some build artifacts of HAproxy that are provided with no support and no expectation of stability. ~~The recommended way of using the repository is to build and test your own packages.~~
 
 You can use the following repository:
+https://packagecloud.io/till/pngmbh-oss
 
 # RPM Specs for HAproxy on CentOS / RHEL / Amazon Linux with default syslog
 
